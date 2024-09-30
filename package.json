@@ -6,5 +6,8 @@
   },
   "scripts": {
     "prettier": "prettier"
+  },
+  "dependencies": {
+    "alpinejs": "^3.14.1"
   }
 }
