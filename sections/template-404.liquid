@@ -1,0 +1,39 @@
+<div class="max-w-md">
+  <div>
+    <h1 class="text-5xl font-bold my-4">{{ section.settings.title }}</h1>
+  </div>
+
+  <div>
+    <p class="text-base md:text-xl leading-normal">{{ section.settings.sub_title }}</p>
+  </div>
+
+  <div class="my-4">
+    <a
+      href="{{shop.url}}"
+      class="px-4 inline py-2 text-base font-medium shadow bg-green-800 hover:bg-green-700 text-white"
+      >Back to homepage</a
+    >
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Template 404",
+  "tag": "section",
+  "class": "flex items-center justify-center text-center py-7 h-screen",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Not found",
+      "label": "404 Heading Title"
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "default": "The page you were looking for does not exist",
+      "label": "404 Subtitle"
+    }
+  ]
+}
+{% endschema %}

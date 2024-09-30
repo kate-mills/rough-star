@@ -1,5 +1,5 @@
 {% assign number_of_comments = article.comments_count %}
-{% if comment and comment.created_at %}
+{% if article.comment and article.comment.created_at %}
   {% assign number_of_comments = article.comments_count %}
 {% endif %}
 
@@ -9,6 +9,7 @@
 {{ article.author }} @ {{ article.created_at }}
 
 <div>{{ article.content }}</div>
+{{author}} @ {{date}}
 {% if blog.comments_enabled? %}
   <h2>{{ number_of_comments }} comments</h2>
   {% paginate article.comments by 5 %}

@@ -5,11 +5,16 @@
     {% for product in collection.products limit:5 %}
       {% assign grid_item_width = 'large--one-fifth medium--one-half' %}
       <div>
+      {{ grid_item_width }}
         <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
         {{ product.price | money }}
         {% unless product.available %}<br><strong>sold out</strong>{% endunless %}
         <a href="{{ product.url | within: collection }}">
-          <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+          <img src="{{ product.featured_image.src | image_url }}"
+               alt="{{ product.featured_image.alt | escape }}"
+               width=""
+               height=""
+               >
         </a>
       </div>
     {% endfor %}
