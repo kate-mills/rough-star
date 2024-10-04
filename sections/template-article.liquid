@@ -1,0 +1,110 @@
+{% assign number_of_comments = article.comments_count %}
+{% if article.comment and article.comment.created_at %}
+  {% assign number_of_comments = article.comments_count %}
+{% endif %}
+
+<h1>{{ article.title }}</h1>
+{% if section.settings.enable_author %}
+  <strong>{{ article.author }}</strong>
+{% endif %}
+
+{% if section.settings.display_published_date %}
+  <small>
+    <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date }}</time>
+  </small>
+{% endif %}
+
+<div class="p-2">{{ article.content }}</div>
+
+{% if blog.comments_enabled? %}
+  <h2>{{ number_of_comments }} comments</h2>
+  {% paginate article.comments by 5 %}
+    {% for comment in article.comments %}
+      <div>
+        <div>{{ comment.content }}</div>
+        {{ comment.author }} @ {{ comment.created_at }}
+      </div>
+    {% endfor %}
+    {% if paginate.pages > 1 %}
+      {{ paginate | default_pagination }}
+    {% endif %}
+  {% endpaginate %}
+
+  <div>
+    {% form 'new_comment', article %}
+      {{ form.errors | default_errors }}
+      <label for="CommentAuthor">name</label>
+      <input
+        type="text"
+        name="comment[author]"
+        id="CommentAuthor"
+        placeholder="name"
+        value="{{ form.author }}"
+        autocapitalize="words"
+      >
+
+      <label for="CommentEmail">email</label>
+      <input
+        type="email"
+        name="comment[email]"
+        id="CommentEmail"
+        placeholder="email"
+        value="{{ form.email }}"
+        autocorrect="off"
+        autocapitalize="off"
+      >
+
+      <label for="CommentBody">message</label>
+      <textarea name="comment[body]" id="CommentBody" placeholder="message">{{ form.body }}</textarea>
+
+      <input type="submit" value="post">
+    {% endform %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Template Article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_author",
+      "default": true,
+      "label": "Display Author Name"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_published_date",
+      "default": true,
+      "label": "Display Published Date"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article_title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "article_author",
+      "name": "Author",
+      "limit": 1
+    },
+    {
+      "type": "article_published_date",
+      "name": "Published Date",
+      "limit": 1
+    },
+    {
+      "type": "featured_image",
+      "name": "Thumbnail",
+      "limit": 1
+    },
+    {
+      "type": "article_content",
+      "name": "Content",
+      "limit": 1
+    }
+  ]
+}
+{% endschema %}
