@@ -3,18 +3,31 @@
   {% assign number_of_comments = article.comments_count %}
 {% endif %}
 
-<h1>{{ article.title }}</h1>
-{% if section.settings.enable_author %}
-  <strong>{{ article.author }}</strong>
-{% endif %}
+{% for block in section.blocks %}
+  {% case block.type %}
+      {% comment %}
+        {% when 'featured_image' %}
+      {% endcomment %}
 
-{% if section.settings.display_published_date %}
-  <small>
-    <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date }}</time>
-  </small>
-{% endif %}
+    {% when 'article_title' %}
+      <h1>{{ article.title }}</h1>
 
-<div class="p-2">{{ article.content }}</div>
+    {% when 'article_author' %}
+      {% if section.settings.enable_author %}
+        <strong>{{ article.author }}</strong>
+      {% endif %}
+
+    {% when 'article_published_date' %}
+      {% if section.settings.display_published_date %}
+        <small>
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date }}</time>
+        </small>
+      {% endif %}
+
+    {% when 'article_content' %}
+      <div class="p-2">{{ article.content }}</div>
+  {% endcase %}
+{% endfor %}
 
 {% if blog.comments_enabled? %}
   <h2>{{ number_of_comments }} comments</h2>
